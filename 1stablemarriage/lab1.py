@@ -60,35 +60,52 @@ for j,m in enumerate(men):
 men = new_men
 del(new_men)
 
+
 # Uncomment to time algo
 #print("starting algo")
 #t0 = time()
 
+for m in men:
+    m.reverse()
 #--------------# Start of Algo #------------------------#
 
 men_index = [m for m in range(0, nbr_women)]
 women_index = [w for w in range(0, nbr_women)]
+men_index.reverse()
 
 # key = woman index
 # value = index of man paired with woman
 pairs = dict()
 
-while len(men_index) != 0:
-    # kvinna som mannen vill ha mest, givet att hon e valid
-    preferred_woman = men[men_index[0]][0]
 
-    # kvinna är friad till så ta bort från mannens preferenslista
-    men[men_index[0]].pop(0)
+# männens preferenslistor innan invertering:
+# [[4, 2, 1, 3], [2, 1, 3, 4], [4, 1, 2, 3], [1, 4, 2, 3]]
+
+# männens preferenslistor efter invertering:
+# [[3, 1, 2, 4], [4, 3, 1, 2], [3, 2, 1, 4], [3, 2, 4, 1]]
+
+
+
+
+
+while len(men_index) != 0:
+    # män-listan inverterad så vi väljer den sista mannen
+    preferred_woman = men[men_index[-1]][-1]
+
+    # Kvinna är friad till så ta bort från mannens preferenslista
+    men[men_index[-1]].pop()
 
     # Kvinna har ingen partner
     if pairs.get(preferred_woman) == None:
-        pairs[preferred_woman] = men_index[0] # en för lite
-        men_index.pop(0)
+        pairs[preferred_woman] = men_index[-1] #skapa paret
+        men_index.pop() #ta bort mannen ur listan med lediga män
+
     # Kvinna har partner men gillar nya mannen mer
-    elif women[preferred_woman-1][men_index[0]] < women[preferred_woman-1][pairs.get(preferred_woman)]:
-        men_index.append(pairs.get(preferred_woman))
-        pairs[preferred_woman] = men_index[0]
-        men_index.pop(0)
+    elif women[preferred_woman-1][men_index[-1]] < women[preferred_woman-1][pairs.get(preferred_woman)]:
+        new_man = men_index.pop() # spara den nya mannen och ta bort fr lediga män
+        men_index.append(pairs.get(preferred_woman)) # lägg tbx gamla mannen
+        pairs[preferred_woman] = new_man # skapa nytt par
+
     # Kvinna har partner och gillar denne mer
     else:
         continue
@@ -100,13 +117,49 @@ sorted_pairs = collections.OrderedDict(sorted(pairs.items()))
 
 
 # Output
-for k,v in sorted_pairs.items():
+for k,v in (sorted_pairs.items()):
     print(v+1)
 
 
 # Uncomment to time algo
 #t2 = time()
 #print(t2-t0)
+
+
+# ---------------------------------------#
+
+# n^3 - variant:
+
+#print(men[men_index[-1]].pop())
+
+# while len(men_index) != 0:
+#     print(men)
+#     #print(men_index)
+#     # kvinna som mannen vill ha mest, givet att hon e valid
+#     preferred_woman = men[men_index[0]][0]
+#
+#     # kvinna är friad till så ta bort från mannens preferenslista
+#     men[men_index[0]].pop(0)
+#
+#     # Kvinna har ingen partner
+#     if pairs.get(preferred_woman) == None:
+#         pairs[preferred_woman] = men_index[0] # en för lite
+#         men_index.pop(0)
+#         print("kvinna: " + str(preferred_woman) + ", man: " + str(pairs[preferred_woman]))
+#     # Kvinna har partner men gillar nya mannen mer
+#     elif women[preferred_woman-1][men_index[0]] < women[preferred_woman-1][pairs.get(preferred_woman)]:
+#         men_index.append(pairs.get(preferred_woman))
+#         pairs[preferred_woman] = men_index[0]
+#         men_index.pop(0)
+#         print("kvinna: " + str(preferred_woman) + ", man: " + str(pairs[preferred_woman]))
+#     # Kvinna har partner och gillar denne mer
+#     else:
+#         continue
+
+
+
+
+
 
 
 
