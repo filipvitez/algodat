@@ -1,6 +1,5 @@
 
 # ---------------# Problem description #--------------------#
-# input: nbr of people and number of undirected weighted edges
 # weight = nbr of minutes for pairs of nodes corresponding to the edge
 # to become friends
 
@@ -26,7 +25,7 @@ from collections import defaultdict
 # kruskals:
 # sort edges based on weights
 # 1 start with shortest
-# 2 choose next shortest edge (impossible to create cycle with only to vertices)
+# 2 choose next shortest edge (impossible to create cycle with only two vertices)
 # 3 choose next shortest edge which wouldnt create a cycle and add
 # 4 repeat 3 until we have a MST
 
@@ -49,7 +48,7 @@ class Graph:
 
     def __init__(self,vertices):
         self.V= vertices #No. of vertices
-        self.graph = [] 
+        self.graph = []
 
 
     # function to add an edge to graph
@@ -94,7 +93,7 @@ class Graph:
         # weight.  If we are not allowed to change the given graph, we
         # can create a copy of graph
         self.graph =  sorted(self.graph,key=lambda item: item[2])
-        #print self.graph
+
 
         parent = [] ; rank = []
 
