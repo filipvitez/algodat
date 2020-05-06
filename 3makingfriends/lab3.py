@@ -15,10 +15,13 @@
 
 # kruskals O(E log V) with union find  = better for sparse graphs
 
+# E = nbr nbr_edges
+# V = nbr_vertices
+
 #-----------------# Imports #--------------------------#
 
 import sys
-from collections import defaultdict
+#from collections import defaultdict #(not needed)
 
 #---------------# Classes & Functions #--------------------------#
 
@@ -57,17 +60,17 @@ class Graph:
 
 
     # A utility function to find set of an element i
-    # (uses path compression technique)
+    # (uses path compression technique) (TODO: ta reda på path compressionen)
     def find(self, parent, i):
         if parent[i] == i:
             return i
-        return self.find(parent, parent[i])
+        return self.find(parent, parent[i]) # kör rekursivt tills vi är i noden som är sin egna parent
 
     # A function that does union of two sets of x and y
     # (uses union by rank)
     def union(self, parent, rank, x, y):
         xroot = self.find(parent, x)
-        yroot = self.find(parent, y)
+        yroot = self.find(parent, y) # find all fathers of x and y
 
         # Attach smaller rank tree under root of high rank tree
         # (Union by Rank)
@@ -81,10 +84,11 @@ class Graph:
             parent[yroot] = xroot
             rank[xroot] += 1
 
-    # The main function to construct MST using Kruskal's algorithm
+    # Construct MST using kruskals
+    # O(E log E) or O(E log V)
     def KruskalMST(self):
-        time = 0
-        result =[] #This will store the resultant MST
+        time = 0 # total time taken to traverse MST
+        result =[] # Store resultant MST
 
         i = 0 # An index variable, used for sorted edges
         e = 0 # An index variable, used for result[]
@@ -93,31 +97,36 @@ class Graph:
         # weight.  If we are not allowed to change the given graph, we
         # can create a copy of graph
         self.graph =  sorted(self.graph,key=lambda item: item[2])
-
+        # => O(E log E)
 
         parent = [] ; rank = []
 
-        # Create V subsets with single elements
+        # Create V subsets with single elements (O(v))
         for node in range(self.V):
-            parent.append(node)
-            rank.append(0)
+            parent.append(node) # all nodes are their own parents in the beginning
+            rank.append(0) # ==> all nodes have rank 0
 
         # Number of edges to be taken is equal to V-1
-        while e < self.V -1 :
+        # => O(V log V)
+        while e < self.V - 1:
 
             # Step 2: Pick the smallest edge and increment the index
             # for next iteration
             u,v,w =  self.graph[i]
             i = i + 1
             x = self.find(parent, u)
-            y = self.find(parent ,v)
+            # => O(log V)
+            y = self.find(parent, v) #find the "all fathers" of u and v
 
             # If including this edge does't cause cycle, include it
             # in result and increment the index of result for next edge
+            # (if x==y, u and v share parents and a cycle will be created if
+            # the edge between u and v is added)
             if x != y:
-                e = e + 1
+                e = e + 1 # we only want V-1 edges.
                 result.append([u,v,w])
-                self.union(parent, rank, x, y)
+                self.union(parent, rank, x, y) # unite subtrees with "all fathers" x y
+                # => O(log V)
                 time = time + w # add weight to total time
             # Else discard the edge
 
@@ -131,3 +140,5 @@ class Graph:
 
 g = populate_graph()
 g.KruskalMST()
+
+# TODO: Ta reda på om det blir problematiskt att implementera allt som listor
