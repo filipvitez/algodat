@@ -29,8 +29,8 @@ import sys
 # sort edges based on weights
 # 1 start with shortest
 # 2 choose next shortest edge (impossible to create cycle with only two vertices)
-# 3 choose next shortest edge which wouldnt create a cycle and add
-# 4 repeat 3 until we have a MST
+# 3 choose next shortest edge that won't create a cycle and add
+# 4 repeat 3 until we have a MST (when we have added V-1 edges)
 
 # reads from st.in and populates graph
 def populate_graph():
@@ -54,13 +54,12 @@ class Graph:
         self.graph = []
 
 
-    # function to add an edge to graph
+    # function to add an edge to the graph
     def addEdge(self,u,v,w):
         self.graph.append([u-1,v-1,w])
 
 
     # A utility function to find set of an element i
-    # (uses path compression technique) (TODO: ta reda på path compressionen)
     def find(self, parent, i):
         if parent[i] == i:
             return i
@@ -70,7 +69,7 @@ class Graph:
     # (uses union by rank)
     def union(self, parent, rank, x, y):
         xroot = self.find(parent, x)
-        yroot = self.find(parent, y) # find all fathers of x and y
+        yroot = self.find(parent, y) # find "all fathers" of x and y
 
         # Attach smaller rank tree under root of high rank tree
         # (Union by Rank)
@@ -94,8 +93,7 @@ class Graph:
         e = 0 # An index variable, used for result[]
 
         #Step 1:  Sort all the edges in non-decreasing order of their
-        # weight.  If we are not allowed to change the given graph, we
-        # can create a copy of graph
+        # weight.
         self.graph =  sorted(self.graph,key=lambda item: item[2])
         # => O(E log E)
 
@@ -140,5 +138,3 @@ class Graph:
 
 g = populate_graph()
 g.KruskalMST()
-
-# TODO: Ta reda på om det blir problematiskt att implementera allt som listor
