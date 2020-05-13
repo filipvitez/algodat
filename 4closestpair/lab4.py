@@ -9,6 +9,7 @@
 4. Compare to find min of d_Lmin, d_Rmin
 5. Find d_LRmin among a subset of points that lie on different sides
 # of x_mid
+6. Compare to find global min
 
 '''
 
