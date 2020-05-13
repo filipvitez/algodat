@@ -40,21 +40,23 @@ def read_stdin():
 def x_sort(l):
     return sorted(l,key=lambda x: x[0])
 
+# calculate distance between two points and update Closest
 def distance(p1,p2):
     global Closest
     dx = p1[0]-p2[0]
     dy = p1[1]-p2[1]
-    # do we always have to continue from here?
+    # TODO: if both dx and dy are larger than Closest we dont have to continue
     dist = sqrt(dx**2 + dy**2)
     if dist < Closest:
         Closest = round(dist,6)
 
+# Go through all points. O(n^2)
 def brute(coords):
     for p1,p2 in combinations(coords,2):
         distance(p1,p2)
 
 
-# for even and uneven nbr of points
+# Halves coords-list for even and uneven nbr of points
 def divide_list(coords):
     #global nbr_players
     nbr_points = len(coords)
@@ -64,7 +66,7 @@ def divide_list(coords):
     else:
         return coords[:half + 1], coords[half:]
 
-
+# 
 def find_closest(coords):
     # brute force for ≤ 3 points
     nbr_points = len(coords)
