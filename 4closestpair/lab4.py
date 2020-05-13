@@ -66,7 +66,7 @@ def divide_list(coords):
     else:
         return coords[:half + 1], coords[half:]
 
-# 
+#
 def find_closest(coords):
     # brute force for ≤ 3 points
     nbr_points = len(coords)
@@ -88,12 +88,12 @@ def find_closest_mid(coords):
     nbr_points = len(coords)
     x_mid = coords[nbr_points//2][0]
 
+    # only take points that are within Best of mid (on right and left side)
     # save time by sorting on y here (not in beginning)
-    # only take points that are within best of mid
     interesting_points = sorted([p for p in coords if x_mid - Closest < p[0] < x_mid + Closest], key= lambda p:p[1])
     nbr_points = len(interesting_points)
 
-    # check 7 closest (change to 15?)
+    # check 7 closest (change to 15?) of each interesting point
     for i, p1 in enumerate(interesting_points[:-1]):
         for p2 in interesting_points[i+1 : min(i+7, nbr_points)]:
             distance(p1,p2)
