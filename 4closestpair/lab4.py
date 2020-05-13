@@ -51,7 +51,7 @@ def distance(p1,p2):
     if dist < Closest:
         Closest = round(dist,6)
 
-# Go through all points. O(n^2)
+# Go through all points. O(n^2) (only do for list of coords with len ≤ 3)
 def brute(coords):
     for p1,p2 in combinations(coords,2):
         distance(p1,p2)
