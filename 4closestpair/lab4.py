@@ -79,9 +79,9 @@ def find_closest(coords):
     find_closest(left)
     find_closest(right)
 
-    # here Best will be updated with the closest distance between points of
+    # here Closest will be updated with the closest distance between points of
     # left/right side
-    # we only check points that are within Best distance
+    # we only check points that are within Closest distance
     find_closest_mid(coords)
 
 
@@ -89,7 +89,7 @@ def find_closest_mid(coords):
     nbr_points = len(coords)
     x_mid = coords[nbr_points//2][0]
 
-    # only take points that are within Best of mid (on right and left side)
+    # only take points that are within Closest of mid (on right and left side)
     # save time by sorting on y here (not in beginning)
     interesting_points = sorted([p for p in coords if x_mid - Closest < p[0] < x_mid + Closest], key= lambda p:p[1])
     nbr_points = len(interesting_points)
