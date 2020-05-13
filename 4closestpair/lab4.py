@@ -46,7 +46,7 @@ def distance(p1,p2):
     global Closest
     dx = p1[0]-p2[0]
     dy = p1[1]-p2[1]
-    # TODO: if both dx and dy are larger than Closest we dont have to continue
+    # TODO: if either dx or dy are larger than Closest we dont have to continue
     dist = sqrt(dx**2 + dy**2)
     if dist < Closest:
         Closest = round(dist,6)
