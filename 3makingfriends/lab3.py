@@ -65,6 +65,7 @@ class Graph:
             return i
         return self.find(parent, parent[i]) # kör rekursivt tills vi är i noden som är sin egna parent
 
+
     # A function that does union of two sets of x and y
     # (uses union by rank)
     def union(self, parent, rank, x, y):
