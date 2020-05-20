@@ -37,7 +37,7 @@ def read_stdin():
 
 
 
-# sort coords based on x
+# sort coords based on x. O(n log n)
 def x_sort(l):
     return sorted(l,key=lambda x: x[0])
 
@@ -59,7 +59,6 @@ def brute(coords):
 
 # Halves coords-list for even and uneven nbr of points
 def divide_list(coords):
-    #global nbr_players
     nbr_points = len(coords)
     half = nbr_points//2
     if nbr_points%2 == 0:
@@ -72,19 +71,20 @@ def find_closest(coords):
     # brute force for ≤ 3 points
     nbr_points = len(coords)
     if nbr_points <= 3:
-        return brute(coords)
+        return brute(coords) #here Closest is updated if necessary
 
     # go down recursively
     left, right = divide_list(coords)
     find_closest(left)
     find_closest(right)
 
-    # here Closest will be updated with the closest distance between points of
-    # left/right side
+    # here Closest will have been updated with the closest distance between
+    # points from left/right side
     # we only check points that are within Closest distance
     find_closest_mid(coords)
 
 
+# function to find closest distance between points on different sides of half
 def find_closest_mid(coords):
     nbr_points = len(coords)
     x_mid = coords[nbr_points//2][0]
@@ -96,7 +96,7 @@ def find_closest_mid(coords):
 
     # check 7 closest (change to 15?) of each interesting point
     for i, p1 in enumerate(interesting_points[:-1]):
-        for p2 in interesting_points[i+1 : min(i+7, nbr_points)]:
+        for p2 in interesting_points[i+1 : min(i+15, nbr_points)]:
             distance(p1,p2)
 
 
